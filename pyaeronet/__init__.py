@@ -1,6 +1,5 @@
-__doc__ = """
-Overview
-========
+__doc__ = """pyaeronet
+---------
 
 pyaeronet.aeronet is an api interface for python. The goal is to make it easy
 to get AERONET data.
@@ -9,10 +8,12 @@ See https://aeronet.gsfc.nasa.gov/print_web_data_help_v3_new.html for more
 details on the underlying webapi.
 
 Example
-=======
+-------
+
+.. code-block:: python
 
     import pyaeronet
-
+    
     api = pyaeronet.aeronet()
     df = api.to_dataframe(
         site='Cart_Site', SDA20=1, AVG=10,

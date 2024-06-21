@@ -2,7 +2,7 @@
    sphinx-quickstart on Fri Mar 17 21:46:43 2023.
 
 pyaeronet User's Guide
-=====================
+======================
 
 `pyaeronet` is a python tool to work with the Aerosol Robotic Netowrk (AERONET).
 

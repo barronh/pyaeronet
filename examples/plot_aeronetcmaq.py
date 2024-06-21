@@ -1,6 +1,6 @@
 """
-Example Notebook to Evaluate EQUATES AOD
-========================================
+Example Evaluation of EQUATES CMAQ AOD
+======================================
 
 Uses EQUATES and AERONet from APIs that create xarray and pandas
 data structure.  The final output is a comparison between AERONet

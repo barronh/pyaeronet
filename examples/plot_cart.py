@@ -1,6 +1,6 @@
 """
 Simple Site Time-series Plot
-========================================
+============================
 
 Uses AERONet API to create a pandas dataframe with derived time column.
 Then plots Total_AOD500nm as a function of time."""
