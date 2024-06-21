@@ -5,7 +5,7 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-from sphinx_gallery.sorting import FileNameSortKey
+# from sphinx_gallery.sorting import FileNameSortKey
 project = 'pyaeronet'
 copyright = '2024, Barron H. Henderson'
 author = 'Barron H. Henderson'
@@ -51,6 +51,6 @@ html_static_path = ['_static']
 sphinx_gallery_conf = {
      'examples_dirs': '../examples',   # path to your example scripts
      'gallery_dirs': 'auto_examples',  # path to where to save gallery generated output
-     'within_subsection_order': FileNameSortKey
+     # 'within_subsection_order': FileNameSortKey
 }
 
