@@ -28,7 +28,10 @@ Example 1: time-series plot
         year2=2000, month2=6, day2=30,
         add_lst=True
     )
-    ax = df.plot.scatter(x='time_lst', y='Total_AOD_500nm[tau_a]')
+    ax = df.plot.scatter(
+        x='time_lst', y='Total_AOD_500nm[tau_a]',
+        figsize=(12, 4)
+    )
     ax.figure.savefig('pyaeronet.png')
 
 ![aeronet plot](pyaeronet.png)
