@@ -143,7 +143,7 @@ class aeronet:
     def to_dataframe(
         self, kwargs=None, outpath=None, add_utc=False, add_lst=False, **kwds
     ):
-        f"""
+        """
         Arguments
         ---------
         kwargs : mappable
@@ -151,7 +151,7 @@ class aeronet:
         kwds : mappable
             If provided, combined with kwargs as params to web api.
             See https://aeronet.gsfc.nasa.gov/print_web_data_help_v3_new.html
-            for details about available kwds ({_knownopts})
+            for details about available kwds.
         outpath : str
             Path to store retrieved data or retrieve if cached.
         add_utc : bool

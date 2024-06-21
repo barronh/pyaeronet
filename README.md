@@ -29,4 +29,6 @@ Example 1: time-series plot
         add_lst=True
     )
     ax = df.plot.scatter(x='time_lst', y='Total_AOD_500nm[tau_a]')
-    ax.figure.savefig('cart.png')
+    ax.figure.savefig('pyaeronet.png')
+
+![aeronet plot](pyaeronet.png)
