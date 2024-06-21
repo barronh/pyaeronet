@@ -13,7 +13,7 @@ Example
 .. code-block:: python
 
     import pyaeronet
-    
+
     api = pyaeronet.aeronet()
     df = api.to_dataframe(
         site='Cart_Site', SDA20=1, AVG=10,
