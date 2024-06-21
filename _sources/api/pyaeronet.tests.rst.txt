@@ -1,0 +1,21 @@
+pyaeronet.tests package
+=======================
+
+Submodules
+----------
+
+pyaeronet.tests.test\_core module
+---------------------------------
+
+.. automodule:: pyaeronet.tests.test_core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: pyaeronet.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+pyaeronet
+=========
+
+.. toctree::
+   :maxdepth: 1
+
+   pyaeronet

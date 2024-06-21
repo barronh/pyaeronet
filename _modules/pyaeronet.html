@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pyaeronet &#8212; pyaeronet 9.9.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.5ea377869091fd0449014c60fc090103.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pyaeronet</h1><div class="highlight"><pre>
+<span></span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;pyaeronet</span>
+<span class="s2">---------</span>
+
+<span class="s2">pyaeronet.aeronet is an api interface for python. The goal is to make it easy</span>
+<span class="s2">to get AERONET data.</span>
+
+<span class="s2">See https://aeronet.gsfc.nasa.gov/print_web_data_help_v3_new.html for more</span>
+<span class="s2">details on the underlying webapi.</span>
+
+<span class="s2">Example</span>
+<span class="s2">-------</span>
+
+<span class="s2">.. code-block:: python</span>
+
+<span class="s2">    import pyaeronet</span>
+
+<span class="s2">    api = pyaeronet.aeronet()</span>
+<span class="s2">    df = api.to_dataframe(</span>
+<span class="s2">        site=&#39;Cart_Site&#39;, SDA20=1, AVG=10,</span>
+<span class="s2">        year=2000, month=6, day=1,</span>
+<span class="s2">        year2=2000, month2=6, day2=30,</span>
+<span class="s2">        add_lst=True</span>
+<span class="s2">    )</span>
+<span class="s2">    ax = df.plot.scatter(x=&#39;time_lst&#39;, y=&#39;Total_AOD_500nm[tau_a]&#39;)</span>
+<span class="s2">    ax.figure.savefig(&#39;cart.png&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.1.0&#39;</span>
+
+<span class="n">_data_types</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;AOD10&#39;</span><span class="p">,</span> <span class="s1">&#39;AOD15&#39;</span><span class="p">,</span> <span class="s1">&#39;AOD20&#39;</span><span class="p">,</span> <span class="s1">&#39;SDA10&#39;</span><span class="p">,</span> <span class="s1">&#39;SDA15&#39;</span><span class="p">,</span> <span class="s1">&#39;SDA20&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;TOT10&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT15&#39;</span><span class="p">,</span> <span class="s1">&#39;TOT20&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_reqopts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;AVG&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_opts</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;hour&#39;</span><span class="p">,</span> <span class="s1">&#39;year2&#39;</span><span class="p">,</span> <span class="s1">&#39;month2&#39;</span><span class="p">,</span> <span class="s1">&#39;day2&#39;</span><span class="p">,</span> <span class="s1">&#39;hour2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;site&#39;</span><span class="p">,</span> <span class="s1">&#39;lat1&#39;</span><span class="p">,</span> <span class="s1">&#39;lat2&#39;</span><span class="p">,</span> <span class="s1">&#39;lon1&#39;</span><span class="p">,</span> <span class="s1">&#39;lon2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;lunar_merge&#39;</span><span class="p">,</span> <span class="s1">&#39;ldp_year&#39;</span><span class="p">,</span> <span class="s1">&#39;ldp_month&#39;</span><span class="p">,</span> <span class="s1">&#39;ldp_day&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;if_no_html&#39;</span>
+<span class="p">]</span>
+<span class="n">_knownopts</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_reqopts</span> <span class="o">+</span> <span class="n">_data_types</span> <span class="o">+</span> <span class="n">_opts</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_aeronet_read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">add_utc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_lst</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">999</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">add_lst</span> <span class="ow">or</span> <span class="n">add_utc</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date(dd:mm:yyyy)&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;T&#39;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Time(hh:mm:ss)&#39;</span><span class="p">]</span>
+            <span class="n">utc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">:%m:%YT%H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date_(dd:mm:yyyy)&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;T&#39;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Time_(hh:mm:ss)&#39;</span><span class="p">]</span>
+            <span class="n">utc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">:%m:%YT%H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">add_utc</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_utc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utc</span>
+        <span class="k">if</span> <span class="n">add_lst</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Site_Longitude(Degrees)&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">15</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_lst&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utc</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<div class="viewcode-block" id="aeronet"><a class="viewcode-back" href="../api/pyaeronet.html#pyaeronet.aeronet">[docs]</a><span class="k">class</span> <span class="nc">aeronet</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">apiroot</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        apiroot : str or None</span>
+<span class="sd">            If None, defaults to https://aeronet.gsfc.nasa.gov/cgi-bin/</span>
+<span class="sd">            print_web_data_v3</span>
+<span class="sd">        kwds : mappable</span>
+<span class="sd">            If provided, used as default options for subsequent calls.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">apiroot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">apiroot</span> <span class="o">=</span> <span class="s1">&#39;https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v3&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apiroot</span> <span class="o">=</span> <span class="n">apiroot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_defopts</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+<div class="viewcode-block" id="aeronet.set_defopts"><a class="viewcode-back" href="../api/pyaeronet.html#pyaeronet.aeronet.set_defopts">[docs]</a>    <span class="k">def</span> <span class="nf">set_defopts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        kwargs : mappable</span>
+<span class="sd">            If provided, used as params to web api.</span>
+<span class="sd">        kwds : mappable</span>
+<span class="sd">            If provided, combined with kwargs as params to web api.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_opts</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;if_no_html&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads defaults from kwds at initialization and defaults AVG to 10.</span>
+<span class="sd">        Then checks required keys are present</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        kwargs : mappable</span>
+<span class="sd">            If provided, used as params to web api.</span>
+<span class="sd">        kwds : mappable</span>
+<span class="sd">            If provided, combined with kwargs as params to web api.</span>
+<span class="sd">        required : bool</span>
+<span class="sd">            Confirm that all required arguments are provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opts</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">opts</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">opts</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">opts</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;AVG&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">required</span><span class="p">:</span>
+            <span class="n">reqmiss</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_reqopts</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reqmiss</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Missing required keys </span><span class="si">{</span><span class="n">reqmiss</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">_data_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Missing required data_type: </span><span class="si">{</span><span class="n">_data_types</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">opts</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">_knownopts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown options </span><span class="si">{</span><span class="n">unknown</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">opts</span>
+
+    <span class="k">def</span> <span class="nf">_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        kwargs : mappable</span>
+<span class="sd">            If provided, used as params to web api.</span>
+<span class="sd">        kwds : mappable</span>
+<span class="sd">            If provided, combined with kwargs as params to web api.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">requests</span>
+        <span class="n">opts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_apiroot</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">opts</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">r</span>
+
+<div class="viewcode-block" id="aeronet.to_dataframe"><a class="viewcode-back" href="../api/pyaeronet.html#pyaeronet.aeronet.to_dataframe">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataframe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">add_utc</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_lst</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        kwargs : mappable</span>
+<span class="sd">            If provided, used as params to web api.</span>
+<span class="sd">        kwds : mappable</span>
+<span class="sd">            If provided, combined with kwargs as params to web api.</span>
+<span class="sd">            See https://aeronet.gsfc.nasa.gov/print_web_data_help_v3_new.html</span>
+<span class="sd">            for details about available kwds.</span>
+<span class="sd">        outpath : str</span>
+<span class="sd">            Path to store retrieved data or retrieve if cached.</span>
+<span class="sd">        add_utc : bool</span>
+<span class="sd">            If True, add time_utc column.</span>
+<span class="sd">        add_lst : bool</span>
+<span class="sd">            If True, add time_lst column with utc offset derived from</span>
+<span class="sd">            Site_Longitude(Degrees)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df : pandas.DataFrame</span>
+<span class="sd">            DataFrame from AERONET v3 Web-API with optionally derived time</span>
+<span class="sd">            columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+        <span class="kn">import</span> <span class="nn">io</span>
+        <span class="kn">import</span> <span class="nn">warnings</span>
+
+        <span class="k">if</span> <span class="n">outpath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outpath</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;using cached </span><span class="si">{</span><span class="n">outpath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_aeronet_read</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="n">add_utc</span><span class="o">=</span><span class="n">add_utc</span><span class="p">,</span> <span class="n">add_lst</span><span class="o">=</span><span class="n">add_lst</span><span class="p">)</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">outpath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">outpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">outpath</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">outpath</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outf</span><span class="p">:</span>
+                <span class="n">outf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_aeronet_read</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="n">add_utc</span><span class="o">=</span><span class="n">add_utc</span><span class="p">,</span> <span class="n">add_lst</span><span class="o">=</span><span class="n">add_lst</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fobj</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_aeronet_read</span><span class="p">(</span><span class="n">fobj</span><span class="p">,</span> <span class="n">add_utc</span><span class="o">=</span><span class="n">add_utc</span><span class="p">,</span> <span class="n">add_lst</span><span class="o">=</span><span class="n">add_lst</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyaeronet</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Table of Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">pyaeronet User’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">pyaeronet Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/pyaeronet.html">pyaeronet package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">pyaeronet</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Barron H. Henderson.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

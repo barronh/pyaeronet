@@ -1,0 +1,18 @@
+pyaeronet package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   pyaeronet.tests
+
+Module contents
+---------------
+
+.. automodule:: pyaeronet
+   :members:
+   :undoc-members:
+   :show-inheritance:
